@@ -39,11 +39,7 @@ header {
   border-bottom: 1px solid var(--border);
   margin-bottom: 2rem;
 }
-header h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
+header h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; }
 header h1 span { color: var(--accent); }
 header .meta {
   font-family: 'IBM Plex Mono', monospace;
@@ -103,6 +99,73 @@ section h2 {
   border-bottom: 1px solid var(--border);
 }
 
+/* Metric legend */
+.legend {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.legend summary {
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.legend summary::-webkit-details-marker { display: none; }
+.legend summary::before {
+  content: '▶';
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  transition: transform 0.2s;
+}
+.legend[open] summary::before { transform: rotate(90deg); }
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.legend-section h4 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.legend-item {
+  padding: 0.3rem 0;
+}
+.legend-item dt {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.legend-item dd {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-top: 0.15rem;
+  line-height: 1.5;
+}
+.score-thresholds {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.score-thresholds span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+}
+
 .findings {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -117,16 +180,8 @@ section h2 {
   border-radius: 12px;
   padding: 1.25rem;
 }
-.finding-card h3 {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-.finding-card p {
-  font-size: 0.85rem;
-  color: var(--text-dim);
-  line-height: 1.6;
-}
+.finding-card h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+.finding-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
 .finding-card .tag {
   display: inline-block;
   font-family: 'IBM Plex Mono', monospace;
@@ -166,11 +221,7 @@ section h2 {
   font-size: 0.85rem;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 thead th {
   text-align: left;
   font-family: 'IBM Plex Mono', monospace;
@@ -183,9 +234,34 @@ thead th {
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
+  position: relative;
 }
 thead th:hover { color: var(--text); }
-thead th.sorted { color: var(--accent); }
+
+/* Tooltips on headers */
+thead th .tip {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: normal;
+  width: 220px;
+  line-height: 1.4;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+thead th:hover .tip { display: block; }
+
 tbody tr.page-row {
   border-bottom: 1px solid var(--border);
   transition: background 0.1s;
@@ -193,10 +269,7 @@ tbody tr.page-row {
 }
 tbody tr.page-row:hover { background: var(--surface); }
 tbody tr.page-row.expanded { background: var(--surface); }
-tbody td {
-  padding: 0.6rem 0.5rem;
-  white-space: nowrap;
-}
+tbody td { padding: 0.6rem 0.5rem; white-space: nowrap; }
 td.page-name {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.8rem;
@@ -214,11 +287,6 @@ td.page-name .chevron {
   font-size: 0.7rem;
 }
 tr.expanded td.page-name .chevron { transform: rotate(90deg); }
-td.page-name a {
-  color: var(--text);
-  text-decoration: none;
-}
-td.page-name a:hover { color: var(--accent); }
 td.metric {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.8rem;
@@ -226,37 +294,54 @@ td.metric {
 }
 
 tr.detail-row { border-bottom: 1px solid var(--border); }
-tr.detail-row td {
-  padding: 0;
-  white-space: normal;
-}
+tr.detail-row td { padding: 0; white-space: normal; }
 .detail-panel {
   background: var(--surface-2);
   padding: 1.25rem 1rem;
   animation: slideDown 0.2s ease-out;
 }
 @keyframes slideDown {
-  from { opacity: 0; max-height: 0; }
-  to { opacity: 1; max-height: 800px; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 .detail-panel .detail-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 .detail-panel .detail-title {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.85rem;
   font-weight: 600;
 }
-.detail-panel .detail-link {
+.detail-panel .detail-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.detail-panel .detail-link,
+.detail-panel .report-btn {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75rem;
   color: var(--accent);
   text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--accent-dim);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
 }
-.detail-panel .detail-link:hover { text-decoration: underline; }
+.detail-panel .detail-link:hover,
+.detail-panel .report-btn:hover {
+  background: rgba(129,140,248,0.1);
+}
+.detail-panel .report-btn.active {
+  background: rgba(129,140,248,0.15);
+}
 
 .detail-categories {
   display: grid;
@@ -291,12 +376,7 @@ tr.detail-row td {
   gap: 0.5rem;
 }
 .issue-row + .issue-row { border-top: 1px solid rgba(255,255,255,0.04); }
-.issue-title {
-  font-size: 0.8rem;
-  color: var(--text);
-  flex: 1;
-  min-width: 0;
-}
+.issue-title { font-size: 0.8rem; color: var(--text); flex: 1; min-width: 0; }
 .issue-meta {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.7rem;
@@ -321,22 +401,28 @@ tr.detail-row td {
   margin-left: 6px;
 }
 
+.lh-iframe-wrap {
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+.lh-iframe-wrap iframe {
+  width: 100%;
+  height: 80vh;
+  border: none;
+  display: block;
+}
+
 .failed-pages {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.25rem;
 }
-.failed-pages h3 {
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-.failed-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
+.failed-pages h3 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
+.failed-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .failed-list span {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75rem;
@@ -359,11 +445,68 @@ footer {
 <body>
 <div class="container">
   <header>
-    <h1><span>niahealth.co</span> — Lighthouse Audit</h1>
-    <div class="meta">Scanned March 24, 2026 &middot; Lighthouse 13.0.3 &middot; Mobile emulation &middot; 75 pages scored, 22 failed &middot; Click any row for details</div>
+    <h1><span>niahealth.co</span> &mdash; Lighthouse Audit</h1>
+    <div class="meta">Scanned March 24, 2026 &middot; Lighthouse 13.0.3 &middot; Mobile emulation &middot; 75 pages scored, 22 failed &middot; Click any row for audit details</div>
   </header>
 
   <div class="summary-grid" id="summary"></div>
+
+  <details class="legend">
+    <summary>What do these scores &amp; metrics mean?</summary>
+    <div class="legend-grid">
+      <div class="legend-section">
+        <h4>Category Scores (0&ndash;100)</h4>
+        <dl>
+          <div class="legend-item">
+            <dt>Perf &mdash; Performance</dt>
+            <dd>How fast the page loads and becomes usable. Combines FCP, LCP, TBT, CLS, and Speed Index into a weighted score. Most impactful for user experience.</dd>
+          </div>
+          <div class="legend-item">
+            <dt>A11y &mdash; Accessibility</dt>
+            <dd>Whether the page is usable by people with disabilities. Checks color contrast, labels, ARIA attributes, keyboard navigation, heading structure, and more.</dd>
+          </div>
+          <div class="legend-item">
+            <dt>BP &mdash; Best Practices</dt>
+            <dd>Modern web standards compliance. Checks HTTPS, deprecated APIs, third-party cookies, console errors, image aspect ratios, and secure JavaScript.</dd>
+          </div>
+          <div class="legend-item">
+            <dt>SEO &mdash; Search Engine Optimization</dt>
+            <dd>How well search engines can discover and index the page. Checks meta descriptions, crawlability, structured data, link text, and mobile friendliness.</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="legend-section">
+        <h4>Performance Metrics</h4>
+        <dl>
+          <div class="legend-item">
+            <dt>FCP &mdash; First Contentful Paint</dt>
+            <dd>Time until the browser renders the first piece of content (text, image, etc.). Target: under 1.8s. Shows how quickly something appears on screen.</dd>
+          </div>
+          <div class="legend-item">
+            <dt>LCP &mdash; Largest Contentful Paint</dt>
+            <dd>Time until the largest visible element (hero image, heading block) finishes rendering. Target: under 2.5s. Core Web Vital &mdash; Google uses this for ranking.</dd>
+          </div>
+          <div class="legend-item">
+            <dt>TBT &mdash; Total Blocking Time</dt>
+            <dd>Total time the main thread was blocked by long JavaScript tasks (>50ms each) between FCP and TTI. Target: under 200ms. Directly affects how responsive the page feels.</dd>
+          </div>
+          <div class="legend-item">
+            <dt>CLS &mdash; Cumulative Layout Shift</dt>
+            <dd>Measures visual stability &mdash; how much content moves around while loading. Target: under 0.1. High CLS means elements jump around as images/fonts/ads load. Core Web Vital.</dd>
+          </div>
+          <div class="legend-item">
+            <dt>TTI &mdash; Time to Interactive</dt>
+            <dd>Time until the page is fully interactive (responds to clicks/taps without delay). Long TTIs mean users see the page but can&rsquo;t interact with it.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+    <div class="score-thresholds">
+      <span><span class="score-pill green">90&ndash;100</span> Good</span>
+      <span><span class="score-pill orange">50&ndash;89</span> Needs work</span>
+      <span><span class="score-pill red">0&ndash;49</span> Poor</span>
+    </div>
+  </details>
 
   <section>
     <h2>Key Findings</h2>
@@ -386,7 +529,7 @@ footer {
       <div class="finding-card">
         <span class="tag info">Positive</span>
         <h3>Accessibility is strong (avg 95)</h3>
-        <p>Most pages score 94-100. The /join page (83) and comparison pages (85) need attention &mdash; likely missing labels, low contrast, or heading order issues.</p>
+        <p>Most pages score 94&ndash;100. The /join page (83) and comparison pages (85) need attention &mdash; likely missing labels, low contrast, or heading order issues.</p>
       </div>
     </div>
   </section>
@@ -396,11 +539,11 @@ footer {
     <div class="controls">
       <input type="text" id="search" placeholder="Filter pages...">
       <select id="sortBy">
-        <option value="perf-asc">Performance ↑ (worst first)</option>
-        <option value="perf-desc">Performance ↓ (best first)</option>
-        <option value="a11y-asc">Accessibility ↑</option>
-        <option value="seo-asc">SEO ↑</option>
-        <option value="page-asc">Page A-Z</option>
+        <option value="perf-asc">Performance &uarr; (worst first)</option>
+        <option value="perf-desc">Performance &darr; (best first)</option>
+        <option value="a11y-asc">Accessibility &uarr;</option>
+        <option value="seo-asc">SEO &uarr;</option>
+        <option value="page-asc">Page A&ndash;Z</option>
       </select>
     </div>
     <div style="overflow-x:auto;">
@@ -408,15 +551,15 @@ footer {
       <thead>
         <tr>
           <th>Page</th>
-          <th>Perf</th>
-          <th>A11y</th>
-          <th>BP</th>
-          <th>SEO</th>
-          <th>FCP</th>
-          <th>LCP</th>
-          <th>TBT</th>
-          <th>CLS</th>
-          <th>TTI</th>
+          <th>Perf<span class="tip">Performance score (0&ndash;100). Weighted blend of FCP, LCP, TBT, CLS, and Speed Index.</span></th>
+          <th>A11y<span class="tip">Accessibility score. Checks color contrast, labels, ARIA, keyboard nav, heading order.</span></th>
+          <th>BP<span class="tip">Best Practices. HTTPS, deprecated APIs, third-party cookies, console errors.</span></th>
+          <th>SEO<span class="tip">Search Engine Optimization. Meta tags, crawlability, link text, mobile friendliness.</span></th>
+          <th>FCP<span class="tip">First Contentful Paint. Time until first text/image appears. Good: &lt;1.8s.</span></th>
+          <th>LCP<span class="tip">Largest Contentful Paint. Time for the biggest visible element to render. Good: &lt;2.5s. Core Web Vital.</span></th>
+          <th>TBT<span class="tip">Total Blocking Time. Main thread blocked by long JS tasks. Good: &lt;200ms.</span></th>
+          <th>CLS<span class="tip">Cumulative Layout Shift. How much content jumps around during load. Good: &lt;0.1. Core Web Vital.</span></th>
+          <th>TTI<span class="tip">Time to Interactive. When the page fully responds to user input without delay.</span></th>
         </tr>
       </thead>
       <tbody id="table-body"></tbody>
@@ -448,6 +591,11 @@ const CAT_CLASS = {
   'best-practices': 'bp',
   'seo': 'seo'
 };
+
+function pageToFile(p) {
+  if (p === '/') return 'pages/index-root.html';
+  return 'pages/' + p.slice(1).replace(/\//g, '--') + '.html';
+}
 
 function scoreClass(v) {
   if (v == null) return 'na';
@@ -481,42 +629,64 @@ document.getElementById('summary').innerHTML = [
 
 function buildDetail(page) {
   const issues = DETAILS[page];
-  if (!issues || issues.length === 0) return '<div class="detail-panel"><em style="color:var(--text-dim);font-size:0.85rem;">No audit detail data available for this page.</em></div>';
+  const fileUrl = pageToFile(page);
 
-  const grouped = {};
-  for (const iss of issues) {
-    const cat = iss.c || 'other';
-    if (!grouped[cat]) grouped[cat] = [];
-    grouped[cat].push(iss);
-  }
+  let issueHtml = '';
+  if (issues && issues.length > 0) {
+    const grouped = {};
+    for (const iss of issues) {
+      const cat = iss.c || 'other';
+      if (!grouped[cat]) grouped[cat] = [];
+      grouped[cat].push(iss);
+    }
 
-  const order = ['performance', 'accessibility', 'best-practices', 'seo'];
-  let cats = '';
-  for (const cat of order) {
-    const items = grouped[cat];
-    if (!items) continue;
-    const rows = items.map(i => {
-      let meta = '';
-      if (i.v) meta += i.v;
-      let savingsHtml = '';
-      if (i.ms) savingsHtml += `<span class="savings">-${i.ms >= 1000 ? (i.ms/1000).toFixed(1) + 's' : i.ms + 'ms'}</span>`;
-      if (i.kb) savingsHtml += `<span class="savings">-${i.kb} KB</span>`;
-      const scoreCls = i.s <= 49 ? 'bad' : 'mid';
-      return `<div class="issue-row">
-        <span class="issue-title">${i.t}</span>
-        <span class="issue-meta">${meta}${savingsHtml}<span class="issue-score ${scoreCls}">${i.s}</span></span>
-      </div>`;
-    }).join('');
-    cats += `<div class="detail-cat ${CAT_CLASS[cat] || ''}"><h4>${CAT_NAMES[cat] || cat}</h4>${rows}</div>`;
+    const order = ['performance', 'accessibility', 'best-practices', 'seo'];
+    let cats = '';
+    for (const cat of order) {
+      const items = grouped[cat];
+      if (!items) continue;
+      const rows = items.map(i => {
+        let meta = '';
+        if (i.v) meta += i.v;
+        let savingsHtml = '';
+        if (i.ms) savingsHtml += `<span class="savings">-${i.ms >= 1000 ? (i.ms/1000).toFixed(1) + 's' : i.ms + 'ms'}</span>`;
+        if (i.kb) savingsHtml += `<span class="savings">-${i.kb} KB</span>`;
+        const scoreCls = i.s <= 49 ? 'bad' : 'mid';
+        return `<div class="issue-row">
+          <span class="issue-title">${i.t}</span>
+          <span class="issue-meta">${meta}${savingsHtml}<span class="issue-score ${scoreCls}">${i.s}</span></span>
+        </div>`;
+      }).join('');
+      cats += `<div class="detail-cat ${CAT_CLASS[cat] || ''}"><h4>${CAT_NAMES[cat] || cat}</h4>${rows}</div>`;
+    }
+    issueHtml = `<div class="detail-categories">${cats}</div>`;
   }
 
   return `<div class="detail-panel">
     <div class="detail-header">
       <span class="detail-title">Audit Breakdown</span>
-      <a class="detail-link" href="https://niahealth.co${page}" target="_blank">Visit page ↗</a>
+      <div class="detail-actions">
+        <a class="detail-link" href="https://niahealth.co${page}" target="_blank">Visit page &nearr;</a>
+        <button class="report-btn" onclick="toggleIframe(this, '${fileUrl}')">Full Lighthouse Report &darr;</button>
+        <a class="detail-link" href="${fileUrl}" target="_blank">Open in new tab &nearr;</a>
+      </div>
     </div>
-    <div class="detail-categories">${cats}</div>
+    ${issueHtml}
+    <div class="lh-iframe-slot"></div>
   </div>`;
+}
+
+function toggleIframe(btn, url) {
+  const slot = btn.closest('.detail-panel').querySelector('.lh-iframe-slot');
+  if (slot.innerHTML) {
+    slot.innerHTML = '';
+    btn.classList.remove('active');
+    btn.innerHTML = 'Full Lighthouse Report &darr;';
+  } else {
+    slot.innerHTML = '<div class="lh-iframe-wrap"><iframe src="' + url + '" loading="lazy"></iframe></div>';
+    btn.classList.add('active');
+    btn.innerHTML = 'Hide Report &uarr;';
+  }
 }
 
 const tbody = document.getElementById('table-body');
@@ -540,7 +710,7 @@ function render() {
   for (const d of rows) {
     const isExpanded = d.page === expandedPage;
     html += `<tr class="page-row${isExpanded ? ' expanded' : ''}" data-page="${d.page}">
-      <td class="page-name"><span class="chevron">▶</span>${d.page}</td>
+      <td class="page-name"><span class="chevron">&#9654;</span>${d.page}</td>
       <td>${pill(d.perf)}</td>
       <td>${pill(d.a11y)}</td>
       <td>${pill(d.bp)}</td>
@@ -559,6 +729,7 @@ function render() {
 }
 
 tbody.addEventListener('click', (e) => {
+  if (e.target.closest('.report-btn') || e.target.closest('.detail-link') || e.target.closest('a')) return;
   const row = e.target.closest('tr.page-row');
   if (!row) return;
   const page = row.dataset.page;
@@ -572,7 +743,7 @@ render();
 
 document.getElementById('failed-section').innerHTML = `
   <div class="failed-pages">
-    <h3>Failed Pages (${FAILED.length}) — No First Contentful Paint</h3>
+    <h3>Failed Pages (${FAILED.length}) &mdash; No First Contentful Paint</h3>
     <div class="failed-list">${FAILED.map(p => `<span>${p}</span>`).join('')}</div>
   </div>
 `;
